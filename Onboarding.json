@@ -1,0 +1,769 @@
+{
+  "name": "Onboarding",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "hour": 9
+            }
+          ]
+        },
+        "authentication": "airtableTokenApi",
+        "baseId": {
+          "__rl": true,
+          "value": "https://airtable.com/app5j61wUn74zRI5Z/",
+          "mode": "url"
+        },
+        "tableId": {
+          "__rl": true,
+          "value": "https://airtable.com/app5j61wUn74zRI5Z/tbltmGSCLUZ65RQOg/viwHv6fc6oAtL2JL4",
+          "mode": "url"
+        },
+        "triggerField": "Lead Stage",
+        "additionalFields": {
+          "viewId": ""
+        }
+      },
+      "type": "n8n-nodes-base.airtableTrigger",
+      "typeVersion": 1,
+      "position": [
+        -20,
+        80
+      ],
+      "id": "3739dcb9-50b8-4ff1-8875-73f3d8174df6",
+      "name": "Airtable Trigger",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "pdzdTfzW55TGEEDx",
+          "name": "Project"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "8ca3561a-ff96-448f-9404-c22f7d3fb69a",
+              "leftValue": "={{ $json.fields['Lead Stage'] }}",
+              "rightValue": "Onboarded",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "a1b1d13b-7c6a-4655-b495-df830845298e",
+              "leftValue": "={{ $json.fields['Drive Link'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        140,
+        80
+      ],
+      "id": "d5946572-5afe-45d3-8cb7-01936d08c9c4",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        440,
+        100
+      ],
+      "id": "eb1b586a-976b-4da0-b28d-8f9349b166cf",
+      "name": "No Operation, do nothing",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ $('Airtable Trigger').item.json.fields.Name }}",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1S7hFyzGdoR5Kn4u92kBfVlmAuRyzSXiv",
+          "mode": "list",
+          "cachedResultName": "Onboarded Clients Workspace  ",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1S7hFyzGdoR5Kn4u92kBfVlmAuRyzSXiv"
+        },
+        "options": {
+          "folderColorRgb": "#35AAFFF"
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        440,
+        -140
+      ],
+      "id": "9a2eefeb-b7e9-4689-b47f-245729d75c7f",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "oaIdmU2vn6yHPQQx",
+          "name": "SCF"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Main folder ID: {{ $('Google Drive').item.json.id }}\nPlease create the standard subfolders (Requirement, Assets, Contract) under this main folder.",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are an intelligent file management assistant. Your task is to organize Google Drive folders based on project structure. Main folder's ID is given to you, your job is to automatically create three subfolders within it:\n\n1. \"Requirement\"\n2. \"Assets\"\n3. \"Contract\"\n\nUse the following tools for creating each subfolder:\n- For \"Requirement\", use the Create_Requirement tool.\n- For \"Assets\", use the create_assets tool.\n- For \"Contract\", use the create_contract tool.\n- At last use welcome_message tool to create a welcome file\n\nAlways create the subfolders under the provided main folder ID. Make sure the folder names are exact. Once the folders are created, return a success message listing all three subfolders along with their folder IDs."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        840,
+        -140
+      ],
+      "id": "25970886-53bf-4fc4-a95f-2e37bd02094b",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        720,
+        100
+      ],
+      "id": "ecbe95ec-0df7-42bc-81bc-350493ee9c08",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "D727HrKm6CVwsaAx",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "= {{ $('Airtable Trigger').item.json.fields.Email }}",
+        "subject": "= Welcome Aboard {{ $('Airtable Trigger').item.json.fields.Name }} – Let’s Get Started 🚀",
+        "emailType": "text",
+        "message": "=Hi {{ $('Airtable Trigger').item.json.fields.Name }},\n\nWelcome aboard! 👋\nI’m excited to be working with you on this project.\n\nTo make everything smooth and organized, I’ve set up a shared Google Drive folder for us. You’ll find everything related to the project there — including files, deliverables, and important documents:\n\n📂 Drive Folder: https://drive.google.com/drive/u/2/folders/{{ $('Google Drive').item.json.id }}\n\nTo better understand your requirements and expectations, please take 2–3 minutes to fill out this short form:\n\n📝 Project Form: https://docs.google.com/forms/d/e/1FAIpQLSdgUuFvXi4eFKKVr56abOIdf3VuQ5zqLhCwYE8XqXkIMNxlsA/viewform\n\nOnce the form is filled, I’ll begin setting up the project structure and move forward accordingly.\n\nIf you have any questions at all, feel free to reach out anytime. Looking forward to creating something great together!\n\nBest regards,\nVashi",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1200,
+        -140
+      ],
+      "id": "c19ef6af-34eb-418c-a4a9-ab6a0201b486",
+      "name": "Gmail",
+      "webhookId": "62d6b03a-c23f-4a7f-adef-a49404ca8fe0",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "HxaCrQzcmPKR41uR",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "operation": "share",
+        "folderNoRootId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "permissionsUi": {
+          "permissionsValues": {
+            "role": "reader",
+            "type": "user",
+            "emailAddress": "={{ $('Airtable Trigger').item.json.fields.Email }}"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        640,
+        -140
+      ],
+      "id": "dff57ff4-40bf-47f4-89e8-18c4147da40b",
+      "name": "Google Drive2",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "oaIdmU2vn6yHPQQx",
+          "name": "SCF"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[{\n\t\"Sub Folder\": \"\",\n\t\"ID\": \"\" \n}]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1460,
+        100
+      ],
+      "id": "922f9977-a17d-4f2b-9027-2ef0b9796b7c",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "Requirements",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Parent_Folder', ``, 'string') }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTool",
+      "typeVersion": 3,
+      "position": [
+        880,
+        100
+      ],
+      "id": "d284fc75-26af-4c7a-a1af-d58fbe03efba",
+      "name": "Create_requirement",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "oaIdmU2vn6yHPQQx",
+          "name": "SCF"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "Assets",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Parent_Folder', ``, 'string') }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTool",
+      "typeVersion": 3,
+      "position": [
+        1020,
+        100
+      ],
+      "id": "8c74bf2b-ca06-4328-92c2-bb85870dd822",
+      "name": "Create_assets",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "oaIdmU2vn6yHPQQx",
+          "name": "SCF"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "Contract",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Parent_Folder', ``, 'string') }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTool",
+      "typeVersion": 3,
+      "position": [
+        1160,
+        100
+      ],
+      "id": "e54748e6-a243-49f8-9ea4-6de9c195d5d8",
+      "name": "Create_contract",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "oaIdmU2vn6yHPQQx",
+          "name": "SCF"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "app5j61wUn74zRI5Z",
+          "mode": "list",
+          "cachedResultName": "CopyLeads",
+          "cachedResultUrl": "https://airtable.com/app5j61wUn74zRI5Z"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbltmGSCLUZ65RQOg",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/app5j61wUn74zRI5Z/tbltmGSCLUZ65RQOg"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Drive Link": "=https://drive.google.com/drive/u/2/folders/{{ $('Google Drive').item.json.id }}",
+            "id": "={{ $('Airtable Trigger').item.json.id }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Lead Stage",
+              "displayName": "Lead Stage",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "New Lead",
+                  "value": "New Lead"
+                },
+                {
+                  "name": "Follow-up",
+                  "value": "Follow-up"
+                },
+                {
+                  "name": "Onboarded",
+                  "value": "Onboarded"
+                },
+                {
+                  "name": "Lost",
+                  "value": "Lost"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Lead Response",
+              "displayName": "Lead Response",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Date added",
+              "displayName": "Date added",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Follow up Date",
+              "displayName": "Follow up Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Drive Link",
+              "displayName": "Drive Link",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Requirement Form",
+              "displayName": "Requirement Form",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Contract Sent?",
+              "displayName": "Contract Sent?",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Follow-up Sent?",
+              "displayName": "Follow-up Sent?",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1400,
+        -140
+      ],
+      "id": "554ad5c6-4d67-4968-8399-e404d1ff3e5d",
+      "name": "Airtable1",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "pdzdTfzW55TGEEDx",
+          "name": "Project"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Create Client Drive Folder\n",
+        "height": 400,
+        "width": 340
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -60,
+        -60
+      ],
+      "id": "a3508f59-09dc-43ef-beb0-0d93b6df953a",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "operation": "createFromText",
+        "content": "=👋 Welcome, {{ $('Airtable Trigger').item.json.fields.Name }}!\n\nI’m excited to have you on this journey!\n\nI’m Vashi, and I’ll be working with you to bring your ideas to life. \nWhether it’s strategy, copy, or execution — you can count on me to stay clear, responsive, and focused on results.\n\nIf you ever have questions or need support, feel free to reach out directly. I’m just one message away.\n\nLooking forward to building something great together! 🚀\n\nWarm regards,\nVashi\n✉️ vashi@copyinnovators.com",
+        "name": "=Welcome {{ $('Airtable Trigger').item.json.fields.Name }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $('Google Drive').item.json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTool",
+      "typeVersion": 3,
+      "position": [
+        1300,
+        100
+      ],
+      "id": "ae8a2be2-4863-4672-9a44-03062a740178",
+      "name": "Welcome_message",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "oaIdmU2vn6yHPQQx",
+          "name": "SCF"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Sub Folders in drive\n- Requirement\n- Assets\n- Contract",
+        "height": 660,
+        "width": 380
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        800,
+        -280
+      ],
+      "id": "448795c7-e9ae-4adc-abcc-8265446887b3",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Airtable Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Google Drive2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive2": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create_requirement": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create_assets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create_contract": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail": {
+      "main": [
+        [
+          {
+            "node": "Airtable1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable1": {
+      "main": [
+        []
+      ]
+    },
+    "Welcome_message": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "7786ab4c-9041-49d6-acf7-4095acfff958",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0a0246c3dfbed0e332d8a38761d52c9e5033872fb11ec58b45b8f7121d6b7b89"
+  },
+  "id": "O3soxnbaXYbo0O9H",
+  "tags": [
+    {
+      "createdAt": "2025-06-04T05:46:46.090Z",
+      "updatedAt": "2025-06-04T05:46:46.090Z",
+      "id": "ZkjQvNWhbgwM5zni",
+      "name": "Project"
+    }
+  ]
+}

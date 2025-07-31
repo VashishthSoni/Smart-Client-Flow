@@ -1,0 +1,382 @@
+{
+  "name": "Monthly Feedback Analysis",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months",
+              "triggerAtDayOfMonth": 30,
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -440,
+        -80
+      ],
+      "id": "72842be3-54b7-4a83-bf15-a1bdb1ef0042",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "11h2FrIyPa-l31aAE2e0QpuAVnTRVzXrRDaTGyTvcH94",
+          "mode": "list",
+          "cachedResultName": "Feedback Form (Responses)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11h2FrIyPa-l31aAE2e0QpuAVnTRVzXrRDaTGyTvcH94/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1993089186,
+          "mode": "list",
+          "cachedResultName": "Form Responses 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11h2FrIyPa-l31aAE2e0QpuAVnTRVzXrRDaTGyTvcH94/edit#gid=1993089186"
+        },
+        "options": {
+          "outputFormatting": {
+            "values": {
+              "general": "UNFORMATTED_VALUE",
+              "date": "FORMATTED_STRING"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -220,
+        -80
+      ],
+      "id": "8341d436-7dac-44a2-9aac-1540729b7cd3",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "xTrYTWy14ZdW84bJ",
+          "name": "Smart Client Flow"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Everytime when client's project is completed following questions are asked:\n- How was your overall experience working with me/us?\n- What specific results or benefits did you see from the project?\n- What stood out most about the way I/we worked?\n- Would you recommend me/us to others? If yes, why?\n- Can we use your feedback as a testimonial (with your name & business)? \n\nHere are the all feedback of the month:\n{{ $json.feedback.toJsonString() }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You're an AI assistant for copyinnovators company.\nCopyinnovator provides folloing services: [Email Campaign, Email Copy, Landing Page, Sales Page Copy, Ad Copy and Long-form Copy]\n\nYour job is to analyze the given feedback entries and summarize:\n1. Common positive themes\n2. Specific results or wins mentioned\n3. Any complaints or suggestions\n4. Which responses are strong testimonials\n5. Assign a rating out of 5 based on feedbacks.\n6. At last select one of the options from this for the \"Month Performance\"\n  - Need Improvement\n  - Okay\n  - Good\n  - Excellent\n\nFormat your response in clear points. Keep it concise and practical.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        180,
+        -80
+      ],
+      "id": "87451204-c2fd-4efa-a8c1-0178e3b94a15",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nconst items = $input.all();\nconst feedback = items.map(item => {\n  item.json.myNewField = 1;\n  return item;\n});\n\nreturn {feedback};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        -80
+      ],
+      "id": "cb299677-ba54-4f7b-b89b-653ba7dcc49e",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        160,
+        140
+      ],
+      "id": "4ae14a63-29ec-4e5c-a968-26679308d4cc",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "D727HrKm6CVwsaAx",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"Current Month\": \"\",\n\t\"Summary\": {\n        \"Positive Themes\":\"\",\n        \"Key Results\":\"\",\n        \"Improvement\":\"\",\n        \"Overall Rating out of 5\":\"\"\n    },\n    \"Month Performance\":\"\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        380,
+        140
+      ],
+      "id": "d3b38aac-6494-44ba-a627-b560c185142d",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "20a92efe-4ff0-8031-afac-e271ebdec06a",
+          "mode": "list",
+          "cachedResultName": "Feedback Data",
+          "cachedResultUrl": "https://www.notion.so/20a92efe4ff08031aface271ebdec06a"
+        },
+        "title": "={{ $today.monthLong}} Feedback Report ",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Month|select",
+              "selectValue": "={{ $today.monthLong}}"
+            },
+            {
+              "key": "Rating|number",
+              "numberValue": "={{ $('AI Agent').item.json.output.Summary['Overall Rating out of 5'].toNumber() }}"
+            },
+            {
+              "key": "Performance|select",
+              "selectValue": "={{ $('AI Agent').item.json.output['Month Performance'] }}"
+            },
+            {
+              "key": "Year|number",
+              "numberValue": "={{ $today.year}}"
+            }
+          ]
+        },
+        "blockUi": {
+          "blockValues": [
+            {
+              "textContent": "=## Positive Themes:\n{{ $('AI Agent').item.json.output.Summary['Positive Themes'] }}\n\n\n## Key Results:\n{{ $('AI Agent').item.json.output.Summary['Key Results'] }}\n\n\n## Improvements:\n{{ $('AI Agent').item.json.output.Summary.Improvement }}\n\n\n### Monthly Performance: {{ $('AI Agent').item.json.output['Month Performance'] }}\n\n\n### Overall Rating: {{ $('AI Agent').item.json.output.Summary['Overall Rating out of 5'] }}"
+            },
+            {
+              "richText": true,
+              "text": {
+                "text": [
+                  {
+                    "text": "Chart",
+                    "isLink": true,
+                    "textLink": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQL1FV_TBVTl4sDLTmjnVv6u9sHaRm16KSJBCZOnQCt3NDtFunsGKs5Sb96vMwUIiD5TvzzT_wfsMDJ/pubchart?oid=937000226&format=interactive",
+                    "annotationUi": {}
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {
+          "iconType": "emoji",
+          "icon": "📈"
+        }
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        780,
+        -80
+      ],
+      "id": "08d6ab22-3a80-4f3e-9ead-12674a2539d1",
+      "name": "Notion",
+      "credentials": {
+        "notionApi": {
+          "id": "qDNzeNzKRmT0SGTc",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1a1NlneypzbGzMypAUCo7FGNb9WntP9iBiVHYAMTDC_Y",
+          "mode": "list",
+          "cachedResultName": "Chart",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1a1NlneypzbGzMypAUCo7FGNb9WntP9iBiVHYAMTDC_Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1a1NlneypzbGzMypAUCo7FGNb9WntP9iBiVHYAMTDC_Y/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Month": "={{ $today.monthLong }}",
+            "Rating": "={{ $json.output.Summary['Overall Rating out of 5'] }}",
+            "Performance": "={{ $json.output['Month Performance'] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Month",
+              "displayName": "Month",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Rating",
+              "displayName": "Rating",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Performance",
+              "displayName": "Performance",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        540,
+        -80
+      ],
+      "id": "e4090b9a-ec72-4dab-888d-e041a926fa20",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "xTrYTWy14ZdW84bJ",
+          "name": "Smart Client Flow"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion": {
+      "main": [
+        []
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "7576353d-ff8f-42a8-96b0-8eaee88bb115",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0a0246c3dfbed0e332d8a38761d52c9e5033872fb11ec58b45b8f7121d6b7b89"
+  },
+  "id": "mlCc9DprE9KCWbTq",
+  "tags": [
+    {
+      "createdAt": "2025-06-04T05:46:46.090Z",
+      "updatedAt": "2025-06-04T05:46:46.090Z",
+      "id": "ZkjQvNWhbgwM5zni",
+      "name": "Project"
+    }
+  ]
+}

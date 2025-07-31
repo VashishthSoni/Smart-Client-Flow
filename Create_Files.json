@@ -1,0 +1,1151 @@
+{
+  "name": "Create Files",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1j0fj6jWLSyEK7Dll3g-O7AHvam6VrjrEmTu-oI1iHF4",
+          "mode": "list",
+          "cachedResultName": "Requirement Intake Form (Responses)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1j0fj6jWLSyEK7Dll3g-O7AHvam6VrjrEmTu-oI1iHF4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1172060232,
+          "mode": "list",
+          "cachedResultName": "Form Responses 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1j0fj6jWLSyEK7Dll3g-O7AHvam6VrjrEmTu-oI1iHF4/edit#gid=1172060232"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -540,
+        -140
+      ],
+      "id": "db715c0f-08b9-4cf3-a7fa-9562e7e34074",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "r0nvcgeACSeUFQRB",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "app5j61wUn74zRI5Z",
+          "mode": "list",
+          "cachedResultName": "CopyLeads",
+          "cachedResultUrl": "https://airtable.com/app5j61wUn74zRI5Z"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbltmGSCLUZ65RQOg",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/app5j61wUn74zRI5Z/tbltmGSCLUZ65RQOg"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Requirement Form": true,
+            "Name": "={{ $json[\"First Name\"] }}"
+          },
+          "matchingColumns": [
+            "Name"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Lead Stage",
+              "displayName": "Lead Stage",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "New Lead",
+                  "value": "New Lead"
+                },
+                {
+                  "name": "Follow-up",
+                  "value": "Follow-up"
+                },
+                {
+                  "name": "Onboarded",
+                  "value": "Onboarded"
+                },
+                {
+                  "name": "Lost",
+                  "value": "Lost"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Lead Response",
+              "displayName": "Lead Response",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Date added",
+              "displayName": "Date added",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Follow up Date",
+              "displayName": "Follow up Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Drive Link",
+              "displayName": "Drive Link",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Requirement Form",
+              "displayName": "Requirement Form",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Contract Sent?",
+              "displayName": "Contract Sent?",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Follow-up Sent?",
+              "displayName": "Follow-up Sent?",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "typecast": true
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -340,
+        -140
+      ],
+      "id": "98513017-b298-417f-b9a4-9b3777127582",
+      "name": "Airtable",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "pdzdTfzW55TGEEDx",
+          "name": "Project"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "97246ded-f604-47f4-8981-5020a289f7b3",
+              "leftValue": "={{ $json.fields[\"Drive Link\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -180,
+        -140
+      ],
+      "id": "1eef29c1-ce11-4140-a873-5937e6def968",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Filter').item.json.fields.Email }}",
+        "subject": "Project Agreement – Please Review & Sign 📝",
+        "emailType": "text",
+        "message": "=Hi {{ $('Filter').item.json.fields.Name }},\n\nHope you're doing great!\n\nAttached below is our project contract outlining the scope, timeline, and terms of our collaboration.\nPlease take a moment to review it and let me know if you have any questions.\n\nOnce everything looks good, feel free to sign it digitally or let me know and I’ll prepare a signature-ready version.\n\n🔗 Contract Document: \n{{ \"https://docs.google.com/document/d/\".concat($json.output['Contract File ID']) }} \n\nIf the link isn't visible then you can find it here in contract folder: {{ $('Airtable').item.json.fields['Drive Link'] }} \n\nOnce signed, we’ll move forward with the next steps and officially kick things off!\n\nLooking forward to working together 🚀\n\nBest regards,\nVashi\nvashi@copyinnovators.com",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1120,
+        -120
+      ],
+      "id": "1176a873-23e6-45b7-8f94-65053f7c41f4",
+      "name": "Gmail1",
+      "webhookId": "bb6b52c3-60ea-4f5c-b7da-cb8d62a91fb9",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "HxaCrQzcmPKR41uR",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Create Rquirement and contract file in Drive",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are an AI assistant that automates file creation in Google Drive using provided tools.\n\n⚙️ Tools Available:\nsearch_requirements: Finds the Requirements folder\n\ncreate_requirements: Creates a requirements file (name and content are already handled)\n\nsearch_contract: Finds the Contracts folder\n\ncreate_contract: Creates a service contract file (name and content are already handled)\n\n✅ Task Flow:\nUse search_requirements to locate the Requirements folder.\n\nUse create_requirements to create the file inside that folder.\n\nUse search_contract to locate the Contracts folder.\n\nUse create_contract to create the file inside that folder.\n\nAll folder IDs, file names, and content are pre-configured in the tools. Simply execute the tools in order and complete the task. Respond only after all steps are successfully done."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        0,
+        -140
+      ],
+      "id": "779a4ef9-ebed-4270-aa91-55dd1ea71f49",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -200,
+        120
+      ],
+      "id": "99e7e43a-5f21-4303-acb0-4131d1e57b2c",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "D727HrKm6CVwsaAx",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "createFromText",
+        "content": "=📌 Project Overview\n\nClient Name: {{ $('Google Sheets Trigger').item.json['First Name'] }}\n\nDate Submitted:  {{ $('Google Sheets Trigger').item.json.Timestamp }}\n\n\n🎯 Project Goals & Outcome\nMain Goal:\n{{ $('Google Sheets Trigger').item.json['What’s the main goal of this project? '] }}\n\nExpected Outcome: {{ $('Google Sheets Trigger').item.json['What outcome or result do you want from this project?  '] }}\n\n\n📦 Deliverables\nSelected Deliverables: {{ $('Google Sheets Trigger').item.json['Key Deliverables  '] }}\n\n\n📅 Timeline\nDeadline / Target Completion: {{ $('Google Sheets Trigger').item.json.Deadline }}\n\n\n📁 Assets & References\n{{ $('Google Sheets Trigger').item.json['Do you have files to share?'] }}\n\nReferences: {{ $('Google Sheets Trigger').item.json['Any reference links or examples?'] }}\n\n\n🤝 Communication & Approval\nPreferred Communication Channel: {{ $('Google Sheets Trigger').item.json['  Preferred contact method  '] }}\n\n📝 Additional Notes\n{{ $('Google Sheets Trigger').item.json['  Anything else we should know?  '] }}\n\n",
+        "name": "={{ $('Filter').item.json.fields.Name }} Requirements",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Parent_Folder', `Requirements Folder Id received from search_requirement tool.`, 'string') }}",
+          "mode": "id"
+        },
+        "options": {
+          "convertToGoogleDocument": true
+        }
+      },
+      "type": "n8n-nodes-base.googleDriveTool",
+      "typeVersion": 3,
+      "position": [
+        100,
+        120
+      ],
+      "id": "092894e2-e006-4e47-9cca-015d52081ae4",
+      "name": "create_requirements",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "oaIdmU2vn6yHPQQx",
+          "name": "SCF"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "Contract",
+        "returnAll": true,
+        "filter": {
+          "driveId": {
+            "mode": "list",
+            "value": "My Drive"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "={{ $('Filter').item.json.fields[\"Drive Link\"] }}",
+            "mode": "url"
+          },
+          "whatToSearch": "folders"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTool",
+      "typeVersion": 3,
+      "position": [
+        220,
+        80
+      ],
+      "id": "a696a3c0-a440-4721-8fbf-ff1c1c1cbf95",
+      "name": "search_contract",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "oaIdmU2vn6yHPQQx",
+          "name": "SCF"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "Requirements",
+        "returnAll": true,
+        "filter": {
+          "driveId": {
+            "mode": "list",
+            "value": "My Drive"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "={{ $('Filter').item.json.fields[\"Drive Link\"] }}",
+            "mode": "url"
+          },
+          "whatToSearch": "folders"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTool",
+      "typeVersion": 3,
+      "position": [
+        -40,
+        80
+      ],
+      "id": "cd6ed6f3-3e5f-4dd9-a792-4fb305467fac",
+      "name": "search_requirement",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "oaIdmU2vn6yHPQQx",
+          "name": "SCF"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "createFromText",
+        "content": "=📄 Service Agreement\nThis Agreement is made between:\n\nService Provider: Vashi\nEmail: vashi@copyinnovators.com\n(Hereafter referred to as “Provider”)\n\nClient: {{ $('Airtable').item.json.fields.Name }}\n(Hereafter referred to as “Client”)\n\nEffective Date: {{ $today.format('dd-MM-yyyy') }}\n\n1. Services Provided\nProvider agrees to deliver the following services: {{ $('Google Sheets Trigger').item.json['Key Deliverables  '] }}\n\n2. Deliverables\nThe Provider will deliver the following: {{ $('Google Sheets Trigger').item.json['Key Deliverables  '] }}\n\nFinal delivery date: {{ $('Google Sheets Trigger').item.json.Deadline }}\n\n\nPayment via: [Bank Transfer, UPI, Wise, etc.]\n\nLate payments may delay project progress.\n\n4. Client Responsibilities\nThe Client agrees to:\n\nProvide required information, materials, and approvals in a timely manner\n\nRespond to feedback or queries within 48 hours\n\nDelays in response may affect delivery timeline.\n\n5. Revisions\nIncludes up to 2rounds of revisions per deliverable\n\nExtra revisions are subject to additional charges\n\n6. Ownership & Rights\nUpon full payment, the Client owns the final approved deliverables\n\nDrafts, unused concepts, and working files remain the Provider’s property unless agreed otherwise\n\n7. Confidentiality\nBoth parties agree to keep all shared information confidential and not disclose to third parties.\n\n8. Cancellation & Refunds\nIf the project is canceled before work starts: 100% refund\nIf canceled midway: refund is prorated based on completed work\nIf final work is delivered: no refund applicable\n\n9. Limitation of Liability\nProvider will not be liable for any indirect, incidental, or consequential damages. The maximum liability is limited to the amount paid by the Client.\n\n10. Acceptance\nBy signing below, both parties agree to the terms outlined in this Agreement.\n\nSigned by Provider:\nName: Vashi\nSignature: vashi@copyinnovators.com\nDate: {{ $today.format('dd-MM-yyyy') }}\n\nSigned by Client:\nName: {{ $('Filter').item.json.fields.Name }}\nSignature: ___________________\nDate: ___________________",
+        "name": "={{ $('Filter').item.json.fields.Name }} Service Contract",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Parent_Folder', `Use Contract Folder Id received from search_contract tool.`, 'string') }}",
+          "mode": "id"
+        },
+        "options": {
+          "convertToGoogleDocument": true
+        }
+      },
+      "type": "n8n-nodes-base.googleDriveTool",
+      "typeVersion": 3,
+      "position": [
+        340,
+        120
+      ],
+      "id": "1ae46554-3296-490e-bee2-3d9fa7f31579",
+      "name": "create_contract",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "oaIdmU2vn6yHPQQx",
+          "name": "SCF"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"Requirement file ID\": \"\",\n  \"Contract File ID\":\"\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        480,
+        100
+      ],
+      "id": "20f382ec-7672-4a88-b55e-e97b3ee17db3",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "13088bf1-4d2c-4882-b6af-21f748d7e192",
+              "leftValue": "={{ $('Airtable').item.json.fields.Assets }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        320,
+        -140
+      ],
+      "id": "aca826a0-9b74-4689-9bf7-d2ab4d720848",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "Assets",
+        "returnAll": true,
+        "filter": {
+          "driveId": {
+            "mode": "list",
+            "value": "My Drive"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "={{ $('Filter').item.json.fields[\"Drive Link\"] }}",
+            "mode": "url"
+          },
+          "whatToSearch": "folders"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        540,
+        -240
+      ],
+      "id": "9a73bc2e-110d-4dd9-8852-d8c9a8d8de44",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "oaIdmU2vn6yHPQQx",
+          "name": "SCF"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://v5.airtableusercontent.com/v3/u/41/41/1749196800000/qhgCSCXEX6sQ9XE2Iz54zg/TvFucm7rR7K3C6-P6ICl1GL1Lz_CaBJrGBZx6rbJPlpHr9jRCekXVMPaxrkzcP7pOGkZeDxJX8RvO8awfRdB_Bl6Ju1ZYpNBGr3IEuB2k5L3NbzQ3WkyuOqB0LFpAzowG9Hnwt-yT20wztRgeKlwQPA-JyiDJrnrHObHRw80UEpC-c24WNWadjCd1zNJvjO_/40D37dWBpwkZHTiv-ByLn8ASNQsLyaVTsoQ7X8Bc5o8",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        700,
+        -240
+      ],
+      "id": "b5f6e254-d33b-4c95-86d2-b303fb112112",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "createFromText",
+        "content": "={{ $json.data }}",
+        "name": "Asset (Requirement Form)",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $('Google Drive').item.json.id }}",
+          "mode": "id"
+        },
+        "options": {
+          "convertToGoogleDocument": true
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        860,
+        -240
+      ],
+      "id": "d892fb05-1d8b-49f7-a258-deab57f253a6",
+      "name": "Google Drive1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "oaIdmU2vn6yHPQQx",
+          "name": "SCF"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "20a92efe-4ff0-805e-bbfa-e0c92905e0ec",
+          "mode": "list",
+          "cachedResultName": "Client Data",
+          "cachedResultUrl": "https://www.notion.so/20a92efe4ff0805ebbfae0c92905e0ec"
+        },
+        "title": "={{ $('Airtable').item.json.fields.Name }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Due Date|date",
+              "date": "={{ $('Google Sheets Trigger').item.json.Deadline }}"
+            },
+            {
+              "key": "Name|title",
+              "title": "={{ $('Google Sheets Trigger').item.json['First Name'] }}"
+            },
+            {
+              "key": "Status|status",
+              "statusValue": "In progress"
+            },
+            {
+              "key": "Project Start Date|date",
+              "date": "={{ $today }}"
+            },
+            {
+              "key": "Stage|select",
+              "selectValue": "Onboarded"
+            },
+            {
+              "key": "Client Email|email",
+              "emailValue": "={{ $('Airtable').item.json.fields.Name }}"
+            }
+          ]
+        },
+        "blockUi": {
+          "blockValues": [
+            {
+              "type": "to_do",
+              "checked": true,
+              "richText": true,
+              "text": {
+                "text": [
+                  {
+                    "text": " Create shared Google Drive folder",
+                    "isLink": true,
+                    "textLink": "={{ $('Airtable').item.json.fields['Drive Link'] }}",
+                    "annotationUi": {
+                      "strikethrough": true,
+                      "color": "blue"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "to_do",
+              "checked": true,
+              "textContent": "Add client details to CRM"
+            },
+            {
+              "type": "to_do",
+              "textContent": "Schedule kickoff call with client"
+            },
+            {
+              "type": "to_do",
+              "textContent": "Assign internal team "
+            },
+            {
+              "type": "to_do",
+              "textContent": "Review intake form submitted by client"
+            },
+            {
+              "type": "to_do",
+              "textContent": "Confirm scope and expectations"
+            }
+          ]
+        },
+        "options": {
+          "iconType": "emoji",
+          "icon": "👨🏻‍💼"
+        }
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1300,
+        -120
+      ],
+      "id": "b0db479c-35a2-4223-a82a-dd8aee0b7faa",
+      "name": "Notion",
+      "credentials": {
+        "notionApi": {
+          "id": "qDNzeNzKRmT0SGTc",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "hour": 9
+            }
+          ]
+        },
+        "event": "pagedUpdatedInDatabase",
+        "databaseId": {
+          "__rl": true,
+          "value": "20a92efe-4ff0-805e-bbfa-e0c92905e0ec",
+          "mode": "list",
+          "cachedResultName": "Client Data",
+          "cachedResultUrl": "https://www.notion.so/20a92efe4ff0805ebbfae0c92905e0ec"
+        }
+      },
+      "type": "n8n-nodes-base.notionTrigger",
+      "typeVersion": 1,
+      "position": [
+        -600,
+        -560
+      ],
+      "id": "1f79495e-e06e-4e0b-a803-3204f112dd0f",
+      "name": "Notion Trigger",
+      "credentials": {
+        "notionApi": {
+          "id": "qDNzeNzKRmT0SGTc",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5a91a682-58aa-472d-8799-9c613da67001",
+              "leftValue": "={{ $json.Status }}",
+              "rightValue": "Done",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "b80e0270-22c7-4184-85da-c91530ec2c4f",
+              "leftValue": "={{ $json.Stage }}",
+              "rightValue": "Completed",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -420,
+        -560
+      ],
+      "id": "c77063b7-27c3-4cd5-93c9-0faa499b7e0d",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json['Client Email'] }}",
+        "subject": "How was your experience?",
+        "emailType": "text",
+        "message": "=Hey {{ $json.Name }},\n\nIt’s been great working with you. I really hope it brought the results and clarity you were looking for!\n\nI’m always looking to improve and serve better — would you mind sharing your quick feedback? Just 4-5 short questions.\n\nHere’s the link to the form:  \n👉 https://forms.gle/zSb5pHyKbf2d3gjC8\n\nIt won’t take more than 2 minutes, and it really helps a lot (plus it may go up as a featured testimonial with your permission!).\n\nThanks again for trusting me — and I’m here if you need anything in future.\n\nWarm regards,  \nVashi\n",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -200,
+        -680
+      ],
+      "id": "afa18890-f5cf-46f6-b924-1d2cfe55a9cf",
+      "name": "Gmail",
+      "webhookId": "5e96c091-d796-4ffe-a4fc-654219861cd2",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "HxaCrQzcmPKR41uR",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        60,
+        -540
+      ],
+      "id": "e11fe973-d6d4-4306-94bf-fd4d5a1458eb",
+      "name": "No Operation, do nothing1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1500,
+        -120
+      ],
+      "id": "cddab242-a4de-49f4-a0fe-9bff502c1d47",
+      "name": "No Operation, do nothing2"
+    },
+    {
+      "parameters": {
+        "content": "# Feedback\nSend Feedback form to client via Gmail.\n\n\n",
+        "height": 420,
+        "width": 940
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -640,
+        -740
+      ],
+      "id": "85dccfe4-bec9-4ccb-85d7-4673b14e2ffb",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Create shared Drive\n\n",
+        "height": 340,
+        "width": 280
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -640,
+        -200
+      ],
+      "id": "dba5ae59-347a-4656-9c30-2cacd22b7402",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Add Assets to drive if any exist",
+        "height": 400,
+        "width": 520
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        500,
+        -380
+      ],
+      "id": "59411806-5612-4a6c-b08d-d1cf03e2a1d6",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Create and Add files Data\n- Fetch Data from Sheet (Form).\n- Create a file, and add content.",
+        "height": 620,
+        "width": 580,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -140,
+        -280
+      ],
+      "id": "10ea4510-45a1-43d3-bcd6-66f6c8f547fc",
+      "name": "Sticky Note3"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "create_requirements": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "search_contract": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "search_requirement": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "create_contract": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Gmail1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Google Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive1": {
+      "main": [
+        [
+          {
+            "node": "Gmail1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail1": {
+      "main": [
+        [
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion Trigger": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "7f6014dc-6f36-4800-b53b-84705392f8fa",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0a0246c3dfbed0e332d8a38761d52c9e5033872fb11ec58b45b8f7121d6b7b89"
+  },
+  "id": "3cdwn2zh5AhCP0am",
+  "tags": [
+    {
+      "createdAt": "2025-06-04T05:46:46.090Z",
+      "updatedAt": "2025-06-04T05:46:46.090Z",
+      "id": "ZkjQvNWhbgwM5zni",
+      "name": "Project"
+    }
+  ]
+}

@@ -1,0 +1,952 @@
+{
+  "name": "Lead Capture",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Let’s See If We’re a Good Fit 🚀",
+        "formDescription": "Interested in high-converting copy that brings results?\n\nAnswer a few quick questions so I can understand what you need, where you are in your journey, and how I can help you best.\n\nTakes less than 2 minutes to complete 👇",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "What service are you interested in?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Email Campaigns"
+                  },
+                  {
+                    "option": "Landing Page"
+                  },
+                  {
+                    "option": "Ad Copy"
+                  },
+                  {
+                    "option": "Sales Page Copy"
+                  }
+                ]
+              },
+              "multiselect": true,
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Where are you in your business journey?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Start Building Business"
+                  },
+                  {
+                    "option": "Getting Results"
+                  },
+                  {
+                    "option": "Looking to scale"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "What's your main focus right now?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Learning & building"
+                  },
+                  {
+                    "option": "Getting clients / Conversions"
+                  },
+                  {
+                    "option": "Scaling or automating"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "How soon do you want to get started?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Just exploring"
+                  },
+                  {
+                    "option": "In a few weeks"
+                  },
+                  {
+                    "option": "ASAP"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "What should we call you?",
+              "placeholder": "Enter your name...",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "What's the best email to reach you at?",
+              "fieldType": "email",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "What's your WhatsApp or phone number?",
+              "fieldType": "number",
+              "placeholder": "1 1234567891",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Phone No. Country Code",
+              "fieldType": "number",
+              "placeholder": "1",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "appendAttribution": false,
+          "respondWithOptions": {
+            "values": {
+              "formSubmittedText": "Thank you for your Time! We'll get back to you soon."
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        20,
+        720
+      ],
+      "id": "b97b8658-a6f0-47c9-8218-812aaa21fc2c",
+      "name": "On form submission",
+      "webhookId": "3623b65c-bb0c-4da3-a68b-16750d2cc3ad"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "app5j61wUn74zRI5Z",
+          "mode": "list",
+          "cachedResultName": "CopyLeads",
+          "cachedResultUrl": "https://airtable.com/app5j61wUn74zRI5Z"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbltmGSCLUZ65RQOg",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/app5j61wUn74zRI5Z/tbltmGSCLUZ65RQOg"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json['What should we call you?'] }}",
+            "Email": "={{ $json['What\\'s the best email to reach you at?'] }}",
+            "Phone": "=+{{ $json['What\\'s your WhatsApp or phone number?'] }}",
+            "Lead Stage": "New Lead",
+            "Lead Response": "=Services:\n- {{ $json['What service are you interested in?']}}\n\nCurrent State: {{ $json['Where are you in your business journey?'] }}\nCurrent Focus: {{ $json['What\\'s your main focus right now?'] }}\nWhen to start: {{ $json['How soon do you want to get started?'] }}\n",
+            "Date added": "={{ $json.submittedAt }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Lead Stage",
+              "displayName": "Lead Stage",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "New Lead",
+                  "value": "New Lead"
+                },
+                {
+                  "name": "Follow-up",
+                  "value": "Follow-up"
+                },
+                {
+                  "name": "Onboarded",
+                  "value": "Onboarded"
+                },
+                {
+                  "name": "Lost",
+                  "value": "Lost"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Lead Response",
+              "displayName": "Lead Response",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Date added",
+              "displayName": "Date added",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Drive Link",
+              "displayName": "Drive Link",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Requirement Form",
+              "displayName": "Requirement Form",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Contract Sent?",
+              "displayName": "Contract Sent?",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Follow up Date",
+              "displayName": "Follow up Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Follow-up Sent?",
+              "displayName": "Follow-up Sent?",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "typecast": true
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -80,
+        -100
+      ],
+      "id": "493ca5db-0663-4224-b5e9-2117eae87044",
+      "name": "Airtable",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "pdzdTfzW55TGEEDx",
+          "name": "Project"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1leEQbqSSvbVwWyybBrv5oHJCX-0Uli-Aiu6EvkbRmnc",
+          "mode": "list",
+          "cachedResultName": "Lead Data Backup",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1leEQbqSSvbVwWyybBrv5oHJCX-0Uli-Aiu6EvkbRmnc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1leEQbqSSvbVwWyybBrv5oHJCX-0Uli-Aiu6EvkbRmnc/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json['What should we call you?'] }}",
+            "Email": "={{ $json['What\\'s the best email to reach you at?'] }}",
+            "Phone": "=+{{ $json['What\\'s your WhatsApp or phone number?'] }}",
+            "Lead Response": "=Services:\n- {{ $json['What service are you interested in?'][0] }}\n- {{ $json['What service are you interested in?'][1] }}\n\nCurrent State: {{ $json['Where are you in your business journey?'] }}\nCurrent Focus: {{ $json['What\\'s your main focus right now?'] }}\nWhen to start?: {{ $json['How soon do you want to get started?'] }}",
+            "Lead stage": "New Lead"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Lead Response",
+              "displayName": "Lead Response",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Lead stage",
+              "displayName": "Lead stage",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -80,
+        120
+      ],
+      "id": "e8520ff9-a593-4b99-9a47-4d3eaaeec97f",
+      "name": "Backup",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "xTrYTWy14ZdW84bJ",
+          "name": "Smart Client Flow"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        100,
+        120
+      ],
+      "id": "96bb9f30-0725-4431-8a3a-6f1ba3842d77",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "chatId": "8020164217",
+        "text": "=<b>🚨 New Lead added to database 🚨</b>\n\n<b>Name:</b> {{ $('Airtable').item.json.fields.Name }}\n<b>Email</b>: {{ $('Airtable').item.json.fields.Email }}\n\n{{ $('Airtable').item.json.fields['Lead Response'] }}\n\n<b>Follow-Up scheduled successfully at {{ $json.start.date }}</b>\n\n<b>Calendar Link:</b> {{ $json.htmlLink }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1260,
+        -100
+      ],
+      "id": "3b674db2-a90a-4217-8652-653a0b9c6373",
+      "name": "Telegram",
+      "webhookId": "eea407a9-5eed-4501-9010-8110e738c67c",
+      "credentials": {
+        "telegramApi": {
+          "id": "RAbTOvDPIBgEbPtd",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "aidev.vashi@gmail.com",
+          "mode": "list",
+          "cachedResultName": "aidev.vashi@gmail.com"
+        },
+        "start": "={{ $now.plus(3,'days') }}",
+        "end": "={{ $now.plus(3, 'Days').plus(30,'Minutes') }}",
+        "additionalFields": {
+          "allday": "yes",
+          "attendees": [
+            "=vashisoni503@gmail.com"
+          ],
+          "description": "={{ $('Airtable').item.json.id }}",
+          "summary": "=Follow-Up {{ $('Airtable').item.json.fields.Name }}",
+          "visibility": "private"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        820,
+        -100
+      ],
+      "id": "c9141762-92db-43ce-b40b-c25e18c451a6",
+      "name": "Google Calendar",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "ZOt1vlgTxlHtboti",
+          "name": "Scf"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Name: {{ $('On form submission').item.json['What should we call you?'] }}\nEMAIL: {{ $('On form submission').item.json['What\\'s the best email to reach you at?'] }}\nInterested Service: {{ $('On form submission').item.json['What service are you interested in?'] }}\n\nCurrent State in business: {{ $('On form submission').item.json['Where are you in your business journey?'] }}\n\nMain Focus: {{ $('On form submission').item.json['What\\'s your main focus right now?'] }}\n\nHow soon can lead get started: {{ $('On form submission').item.json['How soon do you want to get started?'] }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You're a smart assistant helping a freelancer or service provider write personalized follow-up emails to leads who filled out a form.\n\nYour job is to write a short but value-driven email that:\n- Acknowledges the lead’s interest and situation\n- Adds real value (relevant insight, tip, or perspective)\n- Offers a clear next step (call, reply, proposal, etc.)\n\nUse a tone that’s friendly, confident, and helpful — not salesy. The email should feel personal but purposeful. No fluff.\n\n**Guidelines:**\n- Personalize using lead’s name, service they’re interested in, stage, and goal\n- Make simple, concrete and easy to understandable email\n- Use connectors (That's why, also, here's why, etc.) to connect sentences. and sentences should be short by breaking down long sentences with connecters\n- Share practical insight, tip, or opportunity that relates to their need\n- Keep the email under 150 words\n- Only return the plain email body, and subject line.\n- Provide CTA like (schedule call, question, etc.)\n- Signoff with Vashi\n\nAfter Completing the Email writing use the gmail tool to create a draft.\n\nIn Output only answer yes or no. Yes if all tasks are completed, No if any error occurs"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        380,
+        -100
+      ],
+      "id": "7a00dfb9-4718-45bc-80ca-de6e4494f7da",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        320,
+        140
+      ],
+      "id": "931adb8a-9c20-417b-b9e1-99b73313551a",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "D727HrKm6CVwsaAx",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"Task Completed\":\"\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        680,
+        140
+      ],
+      "id": "c41844d9-a628-4ee9-b2bd-22d25fa32d6b",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        500,
+        140
+      ],
+      "id": "b425c85c-4d46-4aaf-818a-a4c6da319c5c",
+      "name": "Gmail",
+      "webhookId": "81ab6919-29a8-4985-886d-128ed6a482b5",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "HxaCrQzcmPKR41uR",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "app5j61wUn74zRI5Z",
+          "mode": "list",
+          "cachedResultName": "CopyLeads",
+          "cachedResultUrl": "https://airtable.com/app5j61wUn74zRI5Z"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbltmGSCLUZ65RQOg",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/app5j61wUn74zRI5Z/tbltmGSCLUZ65RQOg"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Contract Sent?": false,
+            "id": "={{ $('Airtable').item.json.id }}",
+            "Follow up Date": "={{ $json.start.date }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Lead Stage",
+              "displayName": "Lead Stage",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "New Lead",
+                  "value": "New Lead"
+                },
+                {
+                  "name": "Follow-up",
+                  "value": "Follow-up"
+                },
+                {
+                  "name": "Onboarded",
+                  "value": "Onboarded"
+                },
+                {
+                  "name": "Lost",
+                  "value": "Lost"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Lead Response",
+              "displayName": "Lead Response",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Date added",
+              "displayName": "Date added",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Drive Link",
+              "displayName": "Drive Link",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Requirement Form",
+              "displayName": "Requirement Form",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Contract Sent?",
+              "displayName": "Contract Sent?",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Follow up Date",
+              "displayName": "Follow up Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Follow-up Sent?",
+              "displayName": "Follow-up Sent?",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "typecast": true
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1040,
+        -100
+      ],
+      "id": "1d9e61f6-c509-47a1-9744-bff318a6813f",
+      "name": "Airtable1",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "pdzdTfzW55TGEEDx",
+          "name": "Project"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formId": "OoETYtJK"
+      },
+      "type": "n8n-nodes-base.typeformTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -340,
+        -20
+      ],
+      "id": "053ce02d-8443-4ae7-b637-25d018795587",
+      "name": "Typeform Trigger",
+      "webhookId": "7d6b5695-36e1-474a-83d5-99d07c53dfb4",
+      "credentials": {
+        "typeformApi": {
+          "id": "DxJAdFZ1ZtAhJ19D",
+          "name": "Typeform account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "What service are you interested in?": [
+            "Email Campaigns",
+            "Landing Page",
+            "Ad Copy"
+          ],
+          "Where are you in your business journey?": "Getting Results",
+          "What's your main focus right now?": "Getting clients / Conversions",
+          "How soon do you want to get started?": "In a few weeks",
+          "What should we call you?": "Vashishth",
+          "What's the best email to reach you at?": "vashishthsoni3110@gmail.com",
+          "What's your WhatsApp or phone number?": 9988776655,
+          "Phone No. Country Code": 1,
+          "submittedAt": "2025-06-06T08:03:07.449+05:30",
+          "formMode": "test"
+        }
+      }
+    ],
+    "Backup": [
+      {
+        "json": {
+          "Name": "Vashishth",
+          "Email": "vashishthsoni3110@gmail.com",
+          "Phone": "+9988776655",
+          "Lead Response": "Services:\n- Email Campaigns\n- Landing Page\n\nCurrent State: Getting Results\nCurrent Focus: Getting clients / Conversions\nWhen to start?: In a few weeks",
+          "Lead stage": "New Lead"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "On form submission": {
+      "main": [
+        []
+      ]
+    },
+    "Airtable": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Backup": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram": {
+      "main": [
+        []
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Google Calendar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Calendar": {
+      "main": [
+        [
+          {
+            "node": "Airtable1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable1": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Typeform Trigger": {
+      "main": [
+        [
+          {
+            "node": "Airtable",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Backup",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "103ecfe9-535d-4b86-bfc4-35ae5b9e561b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0a0246c3dfbed0e332d8a38761d52c9e5033872fb11ec58b45b8f7121d6b7b89"
+  },
+  "id": "rRGvYYRyrWM7cKwQ",
+  "tags": [
+    {
+      "createdAt": "2025-06-04T05:46:46.090Z",
+      "updatedAt": "2025-06-04T05:46:46.090Z",
+      "id": "ZkjQvNWhbgwM5zni",
+      "name": "Project"
+    }
+  ]
+}
